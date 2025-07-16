@@ -1,0 +1,22 @@
+buildscript {
+    ext.gradle_version = '8.1.1'
+    ext.kotlin_version = '1.9.24'       // ou 1.9.22+
+    ext.compose_version = '1.6.7'       // ou compatível com a BOM usada
+    ext.hilt_version = '2.51.1'         // versão mais recente de Hilt    ext.gradle_version = '8.1.1'
+
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "com.android.tools.build:gradle:$gradle_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
+    }
+}
+
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
