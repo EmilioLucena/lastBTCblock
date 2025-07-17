@@ -82,12 +82,12 @@ fun MainScreen(viewModel: MainScreenViewModel) {
                 }) {
                 Text(text = "Recarregar")
             }
-            Button(modifier = Modifier.padding(top = 20.dp),
-                onClick = {
-                    viewModel.getBlockTotalValue(it.txIndexes)
-                }) {
-                Text(text = "Obter valor")
-            }
+//            Button(modifier = Modifier.padding(top = 20.dp),
+//                onClick = {
+//                    viewModel.getBlockTotalValue(it.txIndexes)
+//                }) {
+//                Text(text = "Obter valor")
+//            }
         }
     }
 }
