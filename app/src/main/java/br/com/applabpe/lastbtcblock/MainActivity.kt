@@ -50,12 +50,16 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen(viewModel: MainScreenViewModel) {
     val blockInfo = viewModel.blockInfo.observeAsState()
+    val totalTransactionValue = viewModel.totalTransactionValue.observeAsState()
+    val transactionIndex = viewModel.transactionIndex.observeAsState()
     val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm")
 
     blockInfo.value?.let {
         val height = it.blockHeight
         val transactionsCount = it.txIndexes.size
         val blockTime = sdf.format(Date(it.time * 1000))
+        val totalValue = totalTransactionValue.value
+        val txIdx = transactionIndex.value
         Column(
             Modifier
                 .padding(6.dp)
@@ -75,7 +79,8 @@ fun MainScreen(viewModel: MainScreenViewModel) {
             )
             Text(text = "Altura = ${height}", fontSize = 20.sp)
             Text(text = "Data = $blockTime GMT-3", fontSize = 20.sp)
-            Text(text = "#Transações = $transactionsCount", fontSize = 20.sp)
+            Text(text = "#Transações = $txIdx / $transactionsCount", fontSize = 20.sp)
+            Text(text = "Total = $totalValue" + " BTC", fontSize = 20.sp)
             Button(modifier = Modifier.padding(top = 20.dp),
                 onClick = {
                     viewModel.getLastBlock()
@@ -90,4 +95,7 @@ fun MainScreen(viewModel: MainScreenViewModel) {
 //            }
         }
     }
+//    totalTransactionValue.value?.let {
+//
+//    }
 }

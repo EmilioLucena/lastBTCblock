@@ -8,18 +8,26 @@ import androidx.lifecycle.viewModelScope
 import br.com.applabpe.lastbtcblock.model.AddressInfo
 import br.com.applabpe.lastbtcblock.model.BlockInfo
 import br.com.applabpe.lastbtcblock.model.TransactionInfo
-import br.com.applabpe.lastbtcblock.repository.BTCRepository
+import br.com.applabpe.lastbtcblock.repository.BlockchainInfoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class MainScreenViewModel @Inject constructor(private val repository: BTCRepository): ViewModel() {
+class MainScreenViewModel @Inject constructor(private val repository: BlockchainInfoRepository): ViewModel() {
 
     private val _blockInfo = MutableLiveData<BlockInfo>()
     val blockInfo: LiveData<BlockInfo>
         get() = _blockInfo
+
+    private val _totalTransactionInfo = MutableLiveData<Double>()
+    val totalTransactionValue: LiveData<Double>
+        get() = _totalTransactionInfo
+
+    private val _transactionIndex = MutableLiveData<Int>()
+    val transactionIndex: LiveData<Int>
+        get() = _transactionIndex
 
     private val _addressInfo = MutableLiveData<AddressInfo>()
     val addressInfo: LiveData<AddressInfo>
@@ -46,7 +54,9 @@ class MainScreenViewModel @Inject constructor(private val repository: BTCReposit
 //                val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm")
 //                val blockTime = sdf.format(date)
                 val totalValue = getBlockTotalValue(block.txIndexes)
-                getTxInfo(block.txIndexes.get(0))
+//                getTxInfo(block.txIndexes.get(0))
+//                val info = repository.getTransactionInfo(block.txIndexes.get(0))
+//                val out = info.out
 //                val size = _txInfo.value?.size
             } catch (e: Exception) {
                 error.postValue(e.message)
@@ -76,17 +86,21 @@ class MainScreenViewModel @Inject constructor(private val repository: BTCReposit
         }
     }
 
-    fun getBlockTotalValue(txIndexes: List<Long>): Long {
-        var total:Long = 0
+    fun getBlockTotalValue(txIndexes: List<Long>) {
+        var total: Long = 0
+        var idx = 0
         for (index in txIndexes) {
             viewModelScope.launch {
                 val info = repository.getTransactionInfo(index)
                 val outs = info.out;
                 for (out in outs) {
                     total += out.value
+                    _totalTransactionInfo.value = total / 100000000.0
                 }
+                idx++
+                _transactionIndex.value = idx
             }
         }
-        return total
+        _totalTransactionInfo.value = total / 100000000.0
     }
 }

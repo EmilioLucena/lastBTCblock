@@ -1,6 +1,5 @@
 package br.com.applabpe.lastbtcblock.model
 
-import android.icu.util.Output
 import com.google.gson.annotations.SerializedName
 
 data class TransactionInfo(
