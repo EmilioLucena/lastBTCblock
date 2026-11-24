@@ -13,3 +13,20 @@
 .externalNativeBuild
 .cxx
 local.properties
+# Android Studio
+/.idea/
+
+# Build artifacts
+/app/build/
+/app/release/
+*.apk
+*.aab
+
+# Signing keys
+*.jks
+*.keystore
+*.p12
+
+# Local environment
+.env
+.env.*

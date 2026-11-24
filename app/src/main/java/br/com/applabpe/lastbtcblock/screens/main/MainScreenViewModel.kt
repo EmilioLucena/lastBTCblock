@@ -49,15 +49,7 @@ class MainScreenViewModel @Inject constructor(private val repository: Blockchain
             try {
                 val block = repository.getLatestBlock()
                 _blockInfo.value = block
-//                val time = block.time * 1000
-//                val date = Date(time)
-//                val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm")
-//                val blockTime = sdf.format(date)
-                val totalValue = getBlockTotalValue(block.txIndexes)
-//                getTxInfo(block.txIndexes.get(0))
-//                val info = repository.getTransactionInfo(block.txIndexes.get(0))
-//                val out = info.out
-//                val size = _txInfo.value?.size
+                getTxInfo(block.txIndexes.get(0))
             } catch (e: Exception) {
                 error.postValue(e.message)
             }
